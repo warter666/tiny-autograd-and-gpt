@@ -118,9 +118,20 @@ def test_sampling():
     assert len(ids) == 5 and all(0 <= i < 11 for i in ids)
 
 
+def test_generate_context_overflow():
+    # prompt longer than block_size must not crash: generate slides the window
+    params = build_small(seed=4)  # block_size = 16
+    rng = np.random.default_rng(7)
+    long_prompt = rng.integers(0, 11, size=40).tolist()
+    ids = generate(long_prompt, params, n_head=2, n_tokens_to_generate=3,
+                   temperature=0, rng=rng)
+    assert len(ids) == 3 and all(0 <= i < 11 for i in ids)
+
+
 if __name__ == "__main__":
     test_torch_forward_parity()
     print("torch forward parity passed")
     test_gradient_check()
     test_sampling()
+    test_generate_context_overflow()
     print("all minigpt tests passed")

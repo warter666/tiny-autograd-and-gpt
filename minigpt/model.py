@@ -134,9 +134,10 @@ def generate(ids, params, n_head, n_tokens_to_generate,
              temperature=1.0, top_k=None, top_p=None, rng=None):
     rng = rng or np.random.default_rng()
     ids = list(ids)
+    block = params["wpe"].shape[0]  # causal: only the last `block` tokens matter
     out = []
     for _ in range(n_tokens_to_generate):
-        logits = forward(ids, params, n_head)
+        logits = forward(ids[-block:], params, n_head)
         p = next_token_distribution(logits[-1], temperature, top_k, top_p)
         if temperature <= 0:
             nxt = int(np.argmax(p))
