@@ -1,5 +1,7 @@
 # 01-AI — 从零重写 micrograd 与 picoGPT
 
+[![CI](https://github.com/warter666/tiny-autograd-and-gpt/actions/workflows/ci.yml/badge.svg)](https://github.com/warter666/tiny-autograd-and-gpt/actions/workflows/ci.yml)
+
 两个包，全部 numpy + 标准库。torch 仅作为测试对拍基准（未安装时相关断言自动跳过）。
 
 ## autograd/ — 标量级自动微分引擎（重写 karpathy/micrograd，17.5k★）
